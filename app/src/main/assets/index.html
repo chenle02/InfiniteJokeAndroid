@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Infinite Joke</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(145deg,#1e2b3c,#0f1a26);font-family:system-ui,Segoe UI,Roboto,sans-serif;padding:1.5rem}.card{max-width:700px;width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:3rem;padding:2.4rem 1.5rem;text-align:center;box-shadow:0 30px 50px -20px #000}.icon{font-size:3rem}h1{color:#f6e9d0;margin:.3rem 0;font-size:2rem}.sub{color:#b7cdd9;border-bottom:1px dashed rgba(255,215,100,.25);padding-bottom:1rem;margin-bottom:1.5rem}.joke{background:rgba(10,18,28,.65);border-left:4px solid #fbbf5a;border-radius:2rem;min-height:150px;padding:1.8rem;display:flex;align-items:center;justify-content:center;color:#f2eee9;font-size:1.35rem;line-height:1.55;margin-bottom:1.4rem}.meta{display:flex;gap:1rem;justify-content:space-between;align-items:center;flex-wrap:wrap}.count{background:#263b4a;border:1px solid #3f5667;color:#d6dce0;border-radius:999px;padding:.55rem 1.2rem}.count span{color:#fbd48a;font-weight:800}.buttons{display:flex;gap:.8rem;flex:1;justify-content:center}button{border:0;border-radius:999px;padding:.85rem 1.4rem;font-size:1rem;font-weight:700;cursor:pointer}#newJokeBtn{background:#e7b45a;color:#1d2a35}#resetBtn{background:#344b5d;color:#fff}.foot{margin-top:1.6rem;color:#7895a5;font-size:.85rem}@media(max-width:480px){.joke{font-size:1.12rem}.buttons{width:100%}button{flex:1}.card{border-radius:2rem}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="icon">♾️</div>
+<h1>Infinite Joke</h1>
+<div class="sub">∞ never ending laughter ∞</div>
+<div class="joke" id="jokeText">🤣 ready for a laugh?</div>
+<div class="meta"><div class="count">🎯 <span id="counter">0</span> jokes</div><div class="buttons"><button id="newJokeBtn">✨ New Joke</button><button id="resetBtn">↺ Reset</button></div></div>
+<div class="foot" id="status">⚡ ready · API + fallback</div>
+</main>
+<script>
+const jokes=["Why do programmers prefer dark mode? Because light attracts bugs.","What do you call a fake noodle? An impasta.","Why don’t scientists trust atoms? Because they make up everything.","What do you call a fish with no eyes? A fsh.","Why did the scarecrow win an award? Because he was outstanding in his field.","What’s orange and sounds like a parrot? A carrot.","How does a penguin build its house? Igloos it together.","Why did the bicycle fall over? Because it was two-tired.","What do you call a bear with no teeth? A gummy bear.","Why did the math book look so sad? Because it had too many problems.","What’s a computer’s favorite snack? Microchips.","Why did the coffee file a police report? It got mugged.","What do you call a sleeping bull? A bulldozer.","How do you organize a space party? You planet.","Why don't skeletons fight each other? They don't have the guts.","What did the buffalo say when his son left? Bison.","Why did the golfer wear two pairs of pants? In case he got a hole in one.","What has ears but cannot hear? A cornfield.","Why did the cookie go to the hospital? Because he felt crummy.","What do you call a dinosaur with an extensive vocabulary? A thesaurus."];
+const jokeText=document.getElementById('jokeText'),counter=document.getElementById('counter'),status=document.getElementById('status'),btn=document.getElementById('newJokeBtn'),reset=document.getElementById('resetBtn');let count=0,loading=false;function fallback(){return jokes[Math.floor(Math.random()*jokes.length)]}async function newJoke(){if(loading)return;loading=true;btn.disabled=true;status.textContent='loading...';try{const r=await fetch('https://icanhazdadjoke.com/',{headers:{Accept:'application/json'}});if(!r.ok)throw Error('api');const d=await r.json();jokeText.textContent=d.joke||fallback()}catch(e){jokeText.textContent=fallback()}count++;counter.textContent=count;status.textContent='⚡ ready · API + fallback';btn.disabled=false;loading=false}btn.onclick=newJoke;reset.onclick=()=>{count=0;counter.textContent='0';jokeText.textContent='✨ click New Joke for infinite fun';status.textContent='reset'};document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();newJoke()}});
+</script>
+</body>
+</html>
